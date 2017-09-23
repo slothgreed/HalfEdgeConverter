@@ -1,0 +1,40 @@
+﻿<Window x:Class="HEConverterUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:behaviors="clr-namespace:HEConverterUI.Behaviors"
+        xmlns:local="clr-namespace:HEConverterUI"
+        mc:Ignorable="d"
+        Title="HalfEdgeConverter" Height="250" Width="525">
+    <Window.DataContext>
+        <local:MainWindowViewModel/>
+    </Window.DataContext>
+    <StackPanel>
+        <Grid Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Input File" Grid.Column="0" Width="60"/>
+            <local:FilePathTextBox FilePath="{Binding InputFilePath}" Grid.Column="1"/>
+            <Button Content="参照" Grid.Column="2" Margin="5,0">
+                <i:Interaction.Behaviors>
+                    <behaviors:OpenFileDialogBehavior FilePath="{Binding InputFilePath, Mode=OneWayToSource}" Filter="STLファイル(*.stl;)|*.stl;"/>
+                </i:Interaction.Behaviors>
+            </Button>
+        </Grid>
+        <Grid  Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Output File" Grid.Column="0" Width="60"/>
+            <local:FilePathTextBox FilePath="{Binding OutputFilePath}" Grid.Column="1" />
+        </Grid>
+        <Button Content="Convert"  HorizontalAlignment="Right" Width="60"  Margin="5,0" Command="{Binding ConvertCommand}"/>
+
+    </StackPanel>
+</Window>

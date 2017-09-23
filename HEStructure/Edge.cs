@@ -13,6 +13,7 @@
         /// 終点
         /// </summary>
         public Vertex End { get; set; }
+
         /// <summary>
         /// メッシュ
         /// </summary>
@@ -21,14 +22,17 @@
         /// 次のエッジ
         /// </summary>
         public Edge Next { get; set; }
+
         /// <summary>
         /// 前のエッジ
         /// </summary>
         public Edge Before { get; set; }
+
         /// <summary>
         /// 反対エッジ
         /// </summary>
         public Edge Opposite { get; set; }
+
         /// <summary>
         /// 初期のIndex
         /// </summary>

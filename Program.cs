@@ -30,24 +30,23 @@ namespace HalfEdgeConverter
                 return false;
             }
 
-            string directoryName = Path.GetDirectoryName(inputFile);
-            string fileName = Path.GetFileNameWithoutExtension(inputFile);
-
-            if (args.Length == 1)
-            {
-                outputFile = directoryName + fileName + HalfEdge.FileExtension;
-            }
-            else
+            if(args.Length == 2)
             {
                 outputFile = args[1];
-                if(!Directory.Exists(Path.GetDirectoryName(outputFile)))
+                if (!Directory.Exists(Path.GetDirectoryName(outputFile)))
                 {
                     Console.WriteLine("Not found Directory.");
                     return false;
                 }
+
+                return true;
             }
+
+            outputFile = FileUtility.GetOutputPath(inputFile);
+
             return true;
         }
+
         static void Main(string[] args)
         {
             string inputFile;
@@ -69,6 +68,7 @@ namespace HalfEdgeConverter
                 Console.WriteLine("Failed Load STL Data");
                 return;
             }
+
             Console.WriteLine("Loaded STL Data");
             
             

@@ -33,7 +33,6 @@ namespace HalfEdgeConverter.HEStructure
         /// </summary>
         public HalfEdge()
         {
-
         }
 
         /// <summary>
@@ -136,6 +135,7 @@ namespace HalfEdgeConverter.HEStructure
             m_EdgeList.Add(edge2);
             m_EdgeList.Add(edge3);
         }
+
         /// <summary>
         /// 反対エッジのセット
         /// </summary>
@@ -149,6 +149,7 @@ namespace HalfEdgeConverter.HEStructure
                 }
             }
         }
+
         /// <summary>
         /// 反対エッジの取得
         /// edge      op_edge
@@ -177,6 +178,7 @@ namespace HalfEdgeConverter.HEStructure
                 }
             }
         }
+
         /// <summary>
         /// 反対エッジがきちんとできているかチェック
         /// </summary>
@@ -299,6 +301,7 @@ namespace HalfEdgeConverter.HEStructure
                 }
             }
         }
+
         /// <summary>
         /// 書き込み
         /// </summary>
@@ -342,6 +345,7 @@ namespace HalfEdgeConverter.HEStructure
             {
                 write.WriteLine("ei" + " " + edge.Next.Index + " " + edge.Before.Index + " " + edge.Opposite.Index + " " + edge.Mesh.Index);
             }
+
             write.WriteLine("end");
             write.Close();
         }
