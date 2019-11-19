@@ -12,6 +12,7 @@ namespace HalfEdgeConverter
         /// <param name="args">コマンドライン引数</param>
         /// <param name="inputFile">入力ファイル</param>
         /// <param name="outputFile">出力ファイル</param>
+        /// <param name="version">デフォルトで1</param>
         /// <returns>Success</returns>
         static bool GetInOutFile(string[] args, out string inputFile, out string outputFile)
         {
@@ -21,6 +22,7 @@ namespace HalfEdgeConverter
                 outputFile = null;
                 return false;
             }
+
             inputFile = args[0];
             if (!File.Exists(inputFile))
             {
@@ -82,7 +84,7 @@ namespace HalfEdgeConverter
             Console.WriteLine("Created HalfEdge Data");
 
             Console.WriteLine("Output File : " + outputFile);
-            half.WriteFile(outputFile);
+            half.WriteFile(outputFile, 1, false);
             Console.WriteLine("Success");
             return;
         }

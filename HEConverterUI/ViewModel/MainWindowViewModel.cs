@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using HalfEdgeConverter;
@@ -11,6 +12,7 @@ namespace HEConverterUI
     /// </summary>
     public class MainWindowViewModel : INotifyPropertyChanged
     {
+        const int MAXVERSION = 2;
         /// <summary>
         /// InputFilePath のバッキングフィールド
         /// </summary>
@@ -20,23 +22,43 @@ namespace HEConverterUI
         /// OutputFilePath のバッキングフィールド
         /// </summary>
         private string outputFilePath;
-        
+
+        /// <summary>
+        /// SelectedVersion のバッキングフィールド
+        /// </summary>
+        private int selectedVersion = 1;
+
+        /// <summary>
+        /// DoBinary のバッキングフィールド
+        /// </summary>
+        private bool doBinary = false;
+
+        /// <summary>
+        /// VersionList のバッキングフィールド
+        /// </summary>
+        private ObservableCollection<int> versionList;
+
         /// <summary>
         /// プロパティ変更イベントハンドラ
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
-        
+
         /// <summary>
         /// コンバートコマンド
         /// </summary>
         public DelegateCommand ConvertCommand { get; }
-        
+
         /// <summary>
         /// コンストラクタ
         /// </summary>
         public MainWindowViewModel()
         {
             ConvertCommand = new DelegateCommand(CanConvert, Convert);
+            versionList = new ObservableCollection<int>();
+            for (int i = 1; i < MAXVERSION + 1; i++)
+            {
+                versionList.Add(i);
+            }
         }
 
         /// <summary>
@@ -51,7 +73,7 @@ namespace HEConverterUI
 
             set
             {
-                if(string.IsNullOrEmpty(value))
+                if (string.IsNullOrEmpty(value))
                 {
                     return;
                 }
@@ -60,6 +82,64 @@ namespace HEConverterUI
                 OutputFilePath = FileUtility.GetOutputPath(inputFilePath);
                 OnPropertyChanged(nameof(InputFilePath));
                 ConvertCommand.OnCanExecuteChanged();
+            }
+        }
+
+        public ObservableCollection<int> VersionList
+        {
+            get
+            {
+                return versionList;
+            }
+        }
+
+        /// <summary>
+        /// バージョン情報
+        /// </summary>
+        public int SelectedVersion
+        {
+            get
+            {
+                return selectedVersion;
+            }
+
+            set
+            {
+                selectedVersion = value;
+                OnPropertyChanged(nameof(SelectedVersion));
+                OnPropertyChanged(nameof(HasBinaryVersion));
+            }
+        }
+
+        /// <summary>
+        /// バイナリ変換するかどうか
+        /// </summary>
+        public bool DoBinary
+        {
+            get
+            {
+                return doBinary;
+            }
+
+            set
+            {
+                doBinary = value;
+                OnPropertyChanged(nameof(DoBinary));
+            }
+        }
+
+        public bool HasBinaryVersion
+        {
+            get
+            {
+                if (SelectedVersion == 2)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 
@@ -124,7 +204,7 @@ namespace HEConverterUI
                 return;
             }
 
-            halfEdge.WriteFile(OutputFilePath);
+            halfEdge.WriteFile(OutputFilePath, SelectedVersion, DoBinary);
 
             MessageBox.Show(
                     "STLのConvertに成功しました。",

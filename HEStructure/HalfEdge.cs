@@ -306,8 +306,101 @@ namespace HalfEdgeConverter.HEStructure
         /// 書き込み
         /// </summary>
         /// <param name="outputFile">出力ファイル</param>
-        public void WriteFile(string outputFile)
+        private void WriteFileVer2(string outputFile)
         {
+            StreamWriter write = new StreamWriter(outputFile);
+
+            write.WriteLine("HalfEdge Data Structure V2");
+            write.WriteLine(m_VertexList.Count + " " + m_EdgeList.Count + " " + m_MeshList.Count);
+            foreach (var vertex in m_VertexList)
+            {
+                write.WriteLine("v" + " " + vertex.Position.X + " " + vertex.Position.Y + " " + vertex.Position.Z);
+            }
+
+            foreach (var edge in m_EdgeList)
+            {
+                write.WriteLine("e" + " " + edge.Start.Index +" " + edge.Next.Index + " " + edge.Opposite.Index + " " + edge.Mesh.Index);
+            }
+
+            foreach (var mesh in m_MeshList)
+            {
+                string edgeIdx = "";
+                foreach (var edge in mesh.AroundEdge)
+                {
+                    if (edge == mesh.AroundEdge.Last())
+                    {
+                        edgeIdx += edge.Index.ToString();
+                    }
+                    else
+                    {
+                        edgeIdx += edge.Index.ToString() + " ";
+                    }
+                }
+                write.WriteLine("m" + " " + mesh.AroundEdge.First());
+            }
+
+
+            write.WriteLine("end");
+            write.Close();
+        }
+
+        /// <summary>
+        /// 書き込みバイナリ
+        /// </summary>
+        /// <param name="outputFile">出力ファイル</param>
+        private void WriteFileVer2Binary(string outputFile)
+        {
+            var fileStream = File.Open(outputFile, FileMode.Create);
+            BinaryWriter writer = new BinaryWriter(fileStream);
+            writer.Write(2); // version;
+            writer.Write(m_VertexList.Count);
+            writer.Write(m_EdgeList.Count);
+            writer.Write(m_MeshList.Count);
+
+            foreach (var vertex in m_VertexList)
+            {
+                writer.Write(vertex.Position.X);
+                writer.Write(vertex.Position.Y);
+                writer.Write(vertex.Position.Z);
+            }
+
+            foreach (var edge in m_EdgeList)
+            {
+                writer.Write(edge.Start.Index);
+                writer.Write(edge.Next.Index);
+                writer.Write(edge.Opposite.Index);
+                writer.Write(edge.Mesh.Index);
+            }
+
+            foreach (var mesh in m_MeshList)
+            {
+                writer.Write(mesh.AroundEdge.First().Index);
+            }
+
+            writer.Close();
+            fileStream.Close();
+        }
+
+        /// <summary>
+        /// 書き込み
+        /// </summary>
+        /// <param name="outputFile">出力ファイル</param>
+        /// <param name="version">バージョン情報</param>
+        /// <param name="binary">バイナリ変換</param>
+        public void WriteFile(string outputFile, int version, bool binary)
+        {
+            if(version == 2)
+            {
+                if(binary == true)
+                {
+                    WriteFileVer2Binary(outputFile);
+                }
+                else
+                {
+                    WriteFileVer2(outputFile);
+                }
+                return;
+            }
             StreamWriter write = new StreamWriter(outputFile);
 
             write.WriteLine("HalfEdge Data Structure");
