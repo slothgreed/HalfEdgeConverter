@@ -60,7 +60,7 @@ end
 
 ``` .half(Binary)
 version 	 : int		: File Data
-vertex Count : int		: Global Data
+vertex Count     : int		: Global Data
 edge Count 	 : int		: Global Data
 mesh Count 	 : int		: Global Data
 vertex.x 	 : float 	: vertex Data
@@ -73,10 +73,10 @@ end vertex index 	: int : edge Data
 next edge index		: int : edge Data
 before edge index	: int : edge Data
 opposite edge index	: int : edge Data
-mesh index			: int : edge Data
+mesh index              : int : edge Data
 ・・・
 ・・・
-edge index			: int : mesh Data
+edge index              : int : mesh Data
 ...
 ...
 
