@@ -42,3 +42,6 @@ end
 ```
 ## 著者
 [@slothgreed](https://twitter.com/slothgreed)
+
+## License
+MIT
