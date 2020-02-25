@@ -319,23 +319,11 @@ namespace HalfEdgeConverter.HEStructure
 
             foreach (var edge in m_EdgeList)
             {
-                write.WriteLine("e" + " " + edge.Start.Index +" " + edge.Next.Index + " " + edge.Opposite.Index + " " + edge.Mesh.Index);
+                write.WriteLine("e" + " " + edge.End.Index +" " + edge.Next.Index + " " + edge.Before.Index + " " + edge.Opposite.Index + " " + edge.Mesh.Index);
             }
 
             foreach (var mesh in m_MeshList)
             {
-                string edgeIdx = "";
-                foreach (var edge in mesh.AroundEdge)
-                {
-                    if (edge == mesh.AroundEdge.Last())
-                    {
-                        edgeIdx += edge.Index.ToString();
-                    }
-                    else
-                    {
-                        edgeIdx += edge.Index.ToString() + " ";
-                    }
-                }
                 write.WriteLine("m" + " " + mesh.AroundEdge.First());
             }
 
@@ -362,12 +350,14 @@ namespace HalfEdgeConverter.HEStructure
                 writer.Write(vertex.Position.X);
                 writer.Write(vertex.Position.Y);
                 writer.Write(vertex.Position.Z);
+                writer.Write(vertex.AroundEdge.First().Index);
             }
 
             foreach (var edge in m_EdgeList)
             {
-                writer.Write(edge.Start.Index);
+                writer.Write(edge.End.Index);
                 writer.Write(edge.Next.Index);
+                writer.Write(edge.Before.Index);
                 writer.Write(edge.Opposite.Index);
                 writer.Write(edge.Mesh.Index);
             }

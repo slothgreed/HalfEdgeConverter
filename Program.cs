@@ -5,66 +5,17 @@ namespace HalfEdgeConverter
 {
     class Program
     {
-
-        /// <summary>
-        /// 入力ファイルの取得
-        /// </summary>
-        /// <param name="args">コマンドライン引数</param>
-        /// <param name="inputFile">入力ファイル</param>
-        /// <param name="outputFile">出力ファイル</param>
-        /// <param name="version">デフォルトで1</param>
-        /// <returns>Success</returns>
-        static bool GetInOutFile(string[] args, out string inputFile, out string outputFile)
-        {
-            if (args.Length < 1)
-            {
-                inputFile = null;
-                outputFile = null;
-                return false;
-            }
-
-            inputFile = args[0];
-            if (!File.Exists(inputFile))
-            {
-                Console.WriteLine("Not Found InputFile Path");
-                inputFile = null;
-                outputFile = null;
-                return false;
-            }
-
-            if(args.Length == 2)
-            {
-                outputFile = args[1];
-                if (!Directory.Exists(Path.GetDirectoryName(outputFile)))
-                {
-                    Console.WriteLine("Not found Directory.");
-                    return false;
-                }
-
-                return true;
-            }
-
-            outputFile = FileUtility.GetOutputPath(inputFile);
-
-            return true;
-        }
-
         static void Main(string[] args)
         {
-            string inputFile;
-            string outputFile;
-
-            if (!GetInOutFile(args, out inputFile, out outputFile))
+            CommandArgs commandArgs = new CommandArgs();
+            if (!commandArgs.Parse(args))
             {
-                Console.WriteLine("Failed Analyze CommandParameter");
-                Console.WriteLine("inputFile : .stl extension only");
-                Console.WriteLine("outputFile : .half extension or none");
-                Console.WriteLine(@"Ex. HalfEdgeConverter.exe C:\STLData.stl C:\HalfData.half");
+                commandArgs.ShowHelp();
                 return;
             }
 
-            Console.WriteLine("Loading STL Data : " + inputFile);
-            STLLoader stlModel = new STLLoader(inputFile);
+            Console.WriteLine("Loading STL Data : " + commandArgs.inputFile);
+            STLLoader stlModel = new STLLoader(commandArgs.inputFile);
             if (!stlModel.Load())
             {
                 Console.WriteLine("Failed Load STL Data");
@@ -83,8 +34,8 @@ namespace HalfEdgeConverter
             }
             Console.WriteLine("Created HalfEdge Data");
 
-            Console.WriteLine("Output File : " + outputFile);
-            half.WriteFile(outputFile, 1, false);
+            Console.WriteLine("Output File : " + commandArgs.outputFile);
+            half.WriteFile(commandArgs.outputFile, commandArgs.version, commandArgs.binary);
             Console.WriteLine("Success");
             return;
         }

@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommandArgs.cs" />
     <Compile Include="HEStructure\Edge.cs" />
     <Compile Include="HEStructure\HalfEdge.cs" />
     <Compile Include="HEStructure\Mesh.cs" />
