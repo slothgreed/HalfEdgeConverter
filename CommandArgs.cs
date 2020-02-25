@@ -15,10 +15,7 @@ namespace HalfEdgeConverter
         public bool binary;
         public CommandArgs()
         {
-            inputFile = string.Empty;
-            outputFile = string.Empty;
-            version = 1;
-            binary = false;
+            Clear();
         }
 
         private bool ExplictParameter(string[] args)
@@ -165,6 +162,7 @@ namespace HalfEdgeConverter
             inputFile = string.Empty;
             outputFile = string.Empty;
             version = 1;
+            binary = false;
         }
     }
 }
