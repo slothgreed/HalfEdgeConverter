@@ -18,7 +18,7 @@ HalfEdgeデータ構造は、頂点や、稜線、ポリゴンの隣接情報を
 ## 使用ライブラリ
 OpenTK  
 
-## halfファイルフォーマット
+## halfファイルフォーマット Ver1
 読み込み方はHalfEdgeクラスのReadHalfEdgeData関数に記述しています。  
 ``` .half
 HalfEdge Data Structure  
@@ -40,6 +40,50 @@ ei NextエッジIndex　BeforeエッジIndex　エッジの反対側のエッジ
 ・・・  
 end  
 ```
+
+## halfファイルフォーマット ver2
+バイナリ形式に対応・不要なデータの削除。
+``` .half(ASCII)
+HalfEdge Data Structure V2
+頂点の数 エッジの数 メッシュの数
+v X Y Z edgeIndex  
+・・・  
+・・・  
+e End Vertex Index, Next Edge Index, Before Edge Index, Opposite Edge Index, Mesh Index  
+・・・  
+・・・  
+m Edge Index 
+・・・  
+・・・  
+end  
+```
+
+``` .half(Binary)
+version 	 : int		: File Data
+vertex Count : int		: Global Data
+edge Count 	 : int		: Global Data
+mesh Count 	 : int		: Global Data
+vertex.x 	 : float 	: vertex Data
+vertex.y 	 : float 	: vertex Data
+vertex.z 	 : float 	: vertex Data
+edge Index 	 : int 		: vertex Data
+・・・
+・・・
+end vertex index 	: int : edge Data
+next edge index		: int : edge Data
+before edge index	: int : edge Data
+opposite edge index	: int : edge Data
+mesh index			: int : edge Data
+・・・
+・・・
+edge index			: int : mesh Data
+...
+...
+
+
+```
+
+
 ## 著者
 [@slothgreed](https://twitter.com/slothgreed)
 

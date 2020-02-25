@@ -314,7 +314,7 @@ namespace HalfEdgeConverter.HEStructure
             write.WriteLine(m_VertexList.Count + " " + m_EdgeList.Count + " " + m_MeshList.Count);
             foreach (var vertex in m_VertexList)
             {
-                write.WriteLine("v" + " " + vertex.Position.X + " " + vertex.Position.Y + " " + vertex.Position.Z);
+                write.WriteLine("v" + " " + vertex.Position.X + " " + vertex.Position.Y + " " + vertex.Position.Z + " " + vertex.AroundEdge.First().Index);
             }
 
             foreach (var edge in m_EdgeList)
